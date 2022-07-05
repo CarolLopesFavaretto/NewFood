@@ -27,7 +27,7 @@ public class AddCuisineMain {
 
         Cuisine cuisine2 = new Cuisine();
         cuisine2.setId(5L);
-        cuisine2.setName("baiana");
+        cuisine2.setName(" baiana");
 
         createdCuisine.save(cuisine);
         createdCuisine.save(cuisine1);
