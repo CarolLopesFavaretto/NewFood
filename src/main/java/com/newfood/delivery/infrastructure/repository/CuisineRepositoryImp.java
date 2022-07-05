@@ -1,34 +1,40 @@
-package com.newfood.delivery.jpa;
+package com.newfood.delivery.infrastructure.repository;
 
 import com.newfood.delivery.domain.model.Cuisine;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import com.newfood.delivery.domain.repository.CuisineRepository;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.List;
 
-@Component
-public class CreateCuisine {
+@Repository
+public class CuisineRepositoryImp implements CuisineRepository {
 
     @PersistenceContext
-    private EntityManager manager;
+    public EntityManager manager;
 
+
+    @Override
     public List<Cuisine> list() {
         return manager.createQuery("from Cuisine", Cuisine.class).getResultList();
     }
 
-    public Cuisine findById(Long id){
-       return manager.find(Cuisine.class, id);
+    @Override
+    public Cuisine findById(Long id) {
+        return manager.find(Cuisine.class, id);
     }
 
     @Transactional
+    @Override
     public Cuisine save(Cuisine cuisine) {
         return manager.merge(cuisine);
     }
 
     @Transactional
-    public void delete(Cuisine cuisine){
+    @Override
+    public void delete(Cuisine cuisine) {
         cuisine = findById(cuisine.getId());
         manager.remove(cuisine);
     }
