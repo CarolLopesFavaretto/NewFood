@@ -8,12 +8,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @Entity
-@Table(name = "cuisine")
-public class Cuisine {
+@Table(name = "city")
+public class City {
 
     @Id
     @EqualsAndHashCode.Include
@@ -23,4 +23,6 @@ public class Cuisine {
     @Column(nullable = false)
     private String name;
 
+    @ManyToOne
+    private State state;
 }

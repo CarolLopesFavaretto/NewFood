@@ -13,7 +13,7 @@ import java.util.List;
 public class CuisineRepositoryImp implements CuisineRepository {
 
     @PersistenceContext
-    public EntityManager manager;
+    private EntityManager manager;
 
 
     @Override

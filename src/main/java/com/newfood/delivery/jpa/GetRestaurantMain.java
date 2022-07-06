@@ -2,26 +2,28 @@ package com.newfood.delivery.jpa;
 
 import com.newfood.delivery.DeliveryApplication;
 import com.newfood.delivery.domain.model.Cuisine;
+import com.newfood.delivery.domain.model.Restaurant;
 import com.newfood.delivery.domain.repository.CuisineRepository;
+import com.newfood.delivery.domain.repository.RestaurantRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 
 import java.util.List;
 
-public class CuisineMain {
+public class GetRestaurantMain {
 
     public static void main(String[] args) {
         ApplicationContext context = new SpringApplicationBuilder(DeliveryApplication.class)
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        CuisineRepository createdCuisine = context.getBean(CuisineRepository.class);
+        RestaurantRepository createdRestaurant = context.getBean(RestaurantRepository.class);
 
-        List<Cuisine> cuisines = createdCuisine.list();
+        List<Restaurant> restaurants = createdRestaurant.list();
 
-        for (Cuisine cuisine : cuisines) {
-            System.out.println(cuisine.getName());
+        for (Restaurant allRestaurant : restaurants) {
+            System.out.println(allRestaurant.getCuisine().getName());
         }
     }
 }
