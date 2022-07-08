@@ -2,6 +2,7 @@ package com.newfood.delivery.infrastructure.repository;
 
 import com.newfood.delivery.domain.model.Cuisine;
 import com.newfood.delivery.domain.repository.CuisineRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -34,8 +35,11 @@ public class CuisineRepositoryImp implements CuisineRepository {
 
     @Transactional
     @Override
-    public void delete(Cuisine cuisine) {
-        cuisine = findById(cuisine.getId());
+    public void delete(Long id) {
+        Cuisine cuisine = findById(id);
+        if (cuisine == null) {
+            throw new EmptyResultDataAccessException(1);
+        }
         manager.remove(cuisine);
     }
 }

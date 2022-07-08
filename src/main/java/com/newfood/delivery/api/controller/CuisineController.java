@@ -1,7 +1,10 @@
 package com.newfood.delivery.api.controller;
 
+import com.newfood.delivery.domain.exceptions.CuisineNotFoundException;
+import com.newfood.delivery.domain.exceptions.EntityInUseException;
 import com.newfood.delivery.domain.model.Cuisine;
 import com.newfood.delivery.domain.repository.CuisineRepository;
+import com.newfood.delivery.domain.service.CreateCuisineService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +21,10 @@ public class CuisineController {
     @Autowired
     private CuisineRepository repository;
 
-    @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    @Autowired
+    private CreateCuisineService service;
+
+    @GetMapping
     public List<Cuisine> list() {
         return repository.list();
     }
@@ -35,15 +41,29 @@ public class CuisineController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Cuisine save(Cuisine cuisine) {
-        return repository.save(cuisine);
+        return service.save(cuisine);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Cuisine> updated(@PathVariable Long id, @RequestBody Cuisine cuisine) {
         Cuisine newCuisine = repository.findById(id);
+        if (newCuisine != null) {
+            BeanUtils.copyProperties(cuisine, newCuisine, "id"); //igual a: -> newCuisine.setName(cuisine.getName());
+            service.save(newCuisine);
+            return ResponseEntity.ok(newCuisine);
+        }
+        return ResponseEntity.notFound().build();
+    }
 
-        BeanUtils.copyProperties(cuisine, newCuisine, "id"); //igual a: -> newCuisine.setName(cuisine.getName());
-        repository.save(newCuisine);
-        return ResponseEntity.ok(newCuisine);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Cuisine> delete(@PathVariable Long id) {
+        try {
+            service.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (CuisineNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (EntityInUseException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 }

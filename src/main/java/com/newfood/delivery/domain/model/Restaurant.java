@@ -30,7 +30,6 @@ public class Restaurant {
     private BigDecimal shipping;
 
     @ManyToOne
-    @JoinColumn(name = "cuisine_type")
     private Cuisine cuisine;
 
     @ManyToOne

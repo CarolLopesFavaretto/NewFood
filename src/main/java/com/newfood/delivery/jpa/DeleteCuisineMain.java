@@ -19,7 +19,7 @@ public class DeleteCuisineMain {
         Cuisine cuisine = new Cuisine();
         cuisine.setId(1L);
 
-        createdCuisine.delete(cuisine);
+        createdCuisine.delete(1L);
 
     }
 }
