@@ -1,0 +1,206 @@
+{
+	"info": {
+		"_postman_id": "5c68bfc7-32fc-47fc-b0ca-011ed2497d6a",
+		"name": "NewFood",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Cuisine",
+			"item": [
+				{
+					"name": "List Cuisine",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/cuisine",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cuisine"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/cuisine/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cuisine",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updated Cuisine",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Coreana\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/cuisine/4",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cuisine",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Created Cuisine",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Coreana\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/cuisine",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cuisine"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Cuisine",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/cuisine/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cuisine",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Restaurant",
+			"item": [
+				{
+					"name": "List Restaurant",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/restaurant",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurant/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurant",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Created Restaurant",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Tapicaria\",\r\n    \"shipping\": 30.70,\r\n    \"cuisine\": {\r\n        \"id\": 1\r\n    },\r\n    \"payment\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/restaurant",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurant"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -1,8 +1,10 @@
 package com.newfood.delivery.api.controller;
 
+import com.newfood.delivery.domain.exceptions.CuisineNotFoundException;
 import com.newfood.delivery.domain.model.Restaurant;
 import com.newfood.delivery.domain.repository.RestaurantRepository;
 import com.newfood.delivery.domain.service.CreateRestaurantService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +37,29 @@ public class RestaurantController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Restaurant created(@RequestBody Restaurant restaurant){
-        return service.save(restaurant);
+    public ResponseEntity<?> created(@RequestBody Restaurant restaurant) {
+        try {
+            restaurant = service.save(restaurant);
+            return ResponseEntity.status(HttpStatus.CREATED).body(restaurant);
+        } catch (CuisineNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updated(@RequestBody Restaurant restaurant, @PathVariable Long id) {
+        try {
+            Restaurant newRestaurant = repository.findById(id);
+
+            if (newRestaurant != null) {
+                BeanUtils.copyProperties(restaurant, newRestaurant, "id");
+                service.save(newRestaurant);
+                return ResponseEntity.status(HttpStatus.OK).body(newRestaurant);
+            }
+            return ResponseEntity.notFound().build();
+        } catch (CuisineNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
