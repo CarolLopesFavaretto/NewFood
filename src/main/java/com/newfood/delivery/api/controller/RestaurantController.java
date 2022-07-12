@@ -1,6 +1,7 @@
 package com.newfood.delivery.api.controller;
 
 import com.newfood.delivery.domain.exceptions.CuisineNotFoundException;
+import com.newfood.delivery.domain.exceptions.RestaurantNotFoundException;
 import com.newfood.delivery.domain.model.Restaurant;
 import com.newfood.delivery.domain.repository.RestaurantRepository;
 import com.newfood.delivery.domain.service.CreateRestaurantService;
@@ -60,6 +61,15 @@ public class RestaurantController {
             return ResponseEntity.notFound().build();
         } catch (CuisineNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Restaurant> delete(@PathVariable Long id) {
+        try {
+            return ResponseEntity.noContent().build();
+        } catch (RestaurantNotFoundException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 }

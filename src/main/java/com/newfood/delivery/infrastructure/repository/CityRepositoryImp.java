@@ -33,8 +33,8 @@ public class CityRepositoryImp implements CityRepository {
 
     @Override
     @Transactional
-    public void delete(City city) {
-        city = findById(city.getId());
+    public void delete(Long id) {
+        City city = findById(id);
         manager.remove(city);
     }
 }

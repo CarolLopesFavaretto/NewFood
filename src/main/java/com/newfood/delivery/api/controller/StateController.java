@@ -1,13 +1,15 @@
 package com.newfood.delivery.api.controller;
 
+import com.newfood.delivery.domain.exceptions.EntityInUseException;
+import com.newfood.delivery.domain.exceptions.StateNotFoundException;
 import com.newfood.delivery.domain.model.State;
 import com.newfood.delivery.domain.repository.StateRepository;
+import com.newfood.delivery.domain.service.CreateStateService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +20,9 @@ public class StateController {
     @Autowired
     private StateRepository repository;
 
+    @Autowired
+    private CreateStateService service;
+
     @GetMapping
     public List<State> list() {
         return repository.list();
@@ -25,7 +30,47 @@ public class StateController {
 
     @GetMapping("/{id}")
     public ResponseEntity<State> findById(@PathVariable Long id) {
+
         State state = repository.findById(id);
-        return ResponseEntity.ok(state);
+        if (state != null) {
+            return ResponseEntity.ok(state);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    public ResponseEntity<?> created(@RequestBody State state) {
+        try {
+            service.save(state);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (StateNotFoundException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updated(@RequestBody State state, @PathVariable Long id) {
+        try {
+            State newState = repository.findById(id);
+
+            if (newState != null) {
+                BeanUtils.copyProperties(state, newState, "id");
+                service.save(newState);
+                return ResponseEntity.status(HttpStatus.OK).body(newState);
+            }
+            return ResponseEntity.notFound().build();
+        } catch (StateNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        try {
+            service.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (StateNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

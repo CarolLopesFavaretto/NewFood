@@ -8,7 +8,6 @@ import com.newfood.delivery.domain.service.CreateCuisineService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,9 +38,14 @@ public class CuisineController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Cuisine save(Cuisine cuisine) {
-        return service.save(cuisine);
+    public ResponseEntity<Cuisine> save(Cuisine cuisine) {
+        try {
+            service.save(cuisine);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (CuisineNotFoundException e) {
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 
     @PutMapping("/{id}")

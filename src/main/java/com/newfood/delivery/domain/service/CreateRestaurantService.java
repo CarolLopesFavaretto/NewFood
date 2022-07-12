@@ -1,11 +1,13 @@
 package com.newfood.delivery.domain.service;
 
 import com.newfood.delivery.domain.exceptions.CuisineNotFoundException;
+import com.newfood.delivery.domain.exceptions.RestaurantNotFoundException;
 import com.newfood.delivery.domain.model.Cuisine;
 import com.newfood.delivery.domain.model.Restaurant;
 import com.newfood.delivery.domain.repository.CuisineRepository;
 import com.newfood.delivery.domain.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,6 +28,14 @@ public class CreateRestaurantService {
 
         }
         return repository.save(restaurant);
+    }
 
+    public void delete(Long id) {
+        try {
+            repository.delete(id);
+        } catch (InvalidDataAccessApiUsageException e) {
+            throw new RestaurantNotFoundException(
+                    String.format("Tipo de cozinha %d não encontrado.", id));
+        }
     }
 }
