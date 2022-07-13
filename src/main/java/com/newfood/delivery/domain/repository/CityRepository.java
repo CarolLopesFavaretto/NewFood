@@ -1,13 +1,8 @@
 package com.newfood.delivery.domain.repository;
 
 import com.newfood.delivery.domain.model.City;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+public interface CityRepository extends JpaRepository<City, Long> {
 
-public interface CityRepository {
-
-    List<City> list();
-    City findById( Long id);
-    City save( City city);
-    void delete (Long id);
 }

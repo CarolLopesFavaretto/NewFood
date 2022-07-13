@@ -1,14 +1,8 @@
 package com.newfood.delivery.domain.repository;
 
 import com.newfood.delivery.domain.model.Payment;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
-public interface PaymentRepository {
-
-    List<Payment> list();
-    Payment findById( Long id);
-    Payment save (Payment payment);
-    Payment update(Payment payment);
-    void delete(Payment payment);
 }

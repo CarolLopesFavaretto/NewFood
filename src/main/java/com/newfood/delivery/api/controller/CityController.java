@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController()
@@ -27,14 +28,14 @@ public class CityController {
 
     @GetMapping
     public List<City> list() {
-        return repository.list();
+        return repository.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<City> findById(@PathVariable Long id) {
-        City city = repository.findById(id);
-        if (city != null) {
-            return ResponseEntity.ok().body(city);
+        Optional<City> city = repository.findById(id);
+        if (city.isPresent()) {
+            return ResponseEntity.ok().body(city.get());
         }
         return ResponseEntity.notFound().build();
     }
@@ -51,24 +52,24 @@ public class CityController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updated(@RequestBody City city, @PathVariable Long id) {
-        City newCity = repository.findById(id);
-
-        if (newCity != null) {
+        City newCity = repository.findById(id).orElse(null);
+       try{
             BeanUtils.copyProperties(city, newCity, "id");
             service.save(newCity);
             return ResponseEntity.ok().body(newCity);
-        }
-        return ResponseEntity.notFound().build();
+        }catch (CityNotFoundException e){
+           return ResponseEntity.notFound().build();
+       }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete( @PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
             service.delete(id);
             return ResponseEntity.noContent().build();
-        }catch (CityNotFoundException e){
+        } catch (CityNotFoundException e) {
             return ResponseEntity.notFound().build();
-        }catch (EntityInUseException e){
+        } catch (EntityInUseException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }

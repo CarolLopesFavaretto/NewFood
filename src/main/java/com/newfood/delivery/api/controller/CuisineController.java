@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/cuisine")
@@ -25,14 +26,14 @@ public class CuisineController {
 
     @GetMapping
     public List<Cuisine> list() {
-        return repository.list();
+        return repository.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Cuisine> findById(@PathVariable Long id) {
-        Cuisine cuisine = repository.findById(id);
-        if (cuisine != null) {
-            return ResponseEntity.ok(cuisine);
+        Optional<Cuisine> cuisine = repository.findById(id);
+        if (cuisine.isPresent()) {
+            return ResponseEntity.ok(cuisine.get());
         }
         return ResponseEntity.notFound().build();
     }
@@ -50,13 +51,14 @@ public class CuisineController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Cuisine> updated(@PathVariable Long id, @RequestBody Cuisine cuisine) {
-        Cuisine newCuisine = repository.findById(id);
-        if (newCuisine != null) {
+        Cuisine newCuisine = repository.findById(id).orElse(null);
+        try {
             BeanUtils.copyProperties(cuisine, newCuisine, "id"); //igual a: -> newCuisine.setName(cuisine.getName());
             service.save(newCuisine);
             return ResponseEntity.ok(newCuisine);
+        } catch (CuisineNotFoundException e) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")

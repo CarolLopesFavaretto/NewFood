@@ -1,13 +1,10 @@
 package com.newfood.delivery.domain.repository;
 
 import com.newfood.delivery.domain.model.Cuisine;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+@Repository
+public interface CuisineRepository extends JpaRepository<Cuisine, Long> {
 
-public interface CuisineRepository {
-
-    List<Cuisine> list();
-    Cuisine findById(Long id);
-    Cuisine save (Cuisine cuisine);
-    void delete(Long id);
 }

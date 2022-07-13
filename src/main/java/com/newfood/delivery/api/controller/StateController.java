@@ -1,6 +1,5 @@
 package com.newfood.delivery.api.controller;
 
-import com.newfood.delivery.domain.exceptions.EntityInUseException;
 import com.newfood.delivery.domain.exceptions.StateNotFoundException;
 import com.newfood.delivery.domain.model.State;
 import com.newfood.delivery.domain.repository.StateRepository;
@@ -12,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/state")
@@ -25,15 +25,15 @@ public class StateController {
 
     @GetMapping
     public List<State> list() {
-        return repository.list();
+        return repository.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<State> findById(@PathVariable Long id) {
 
-        State state = repository.findById(id);
-        if (state != null) {
-            return ResponseEntity.ok(state);
+        Optional<State> state = repository.findById(id);
+        if (state.isPresent()) {
+            return ResponseEntity.ok(state.get());
         }
         return ResponseEntity.notFound().build();
     }
@@ -51,14 +51,12 @@ public class StateController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updated(@RequestBody State state, @PathVariable Long id) {
         try {
-            State newState = repository.findById(id);
+            State newState = repository.findById(id).orElse(null);
 
-            if (newState != null) {
-                BeanUtils.copyProperties(state, newState, "id");
-                service.save(newState);
-                return ResponseEntity.status(HttpStatus.OK).body(newState);
-            }
-            return ResponseEntity.notFound().build();
+            BeanUtils.copyProperties(state, newState, "id");
+            service.save(newState);
+            return ResponseEntity.status(HttpStatus.OK).body(newState);
+
         } catch (StateNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

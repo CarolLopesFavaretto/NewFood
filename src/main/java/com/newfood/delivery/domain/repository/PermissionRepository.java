@@ -1,13 +1,8 @@
 package com.newfood.delivery.domain.repository;
 
 import com.newfood.delivery.domain.model.Permission;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+public interface PermissionRepository extends JpaRepository<Permission, Long> {
 
-public interface PermissionRepository {
-
-    List<Permission> list();
-    Permission findById( Long id);
-    Permission save (Permission permission);
-    void delete (Permission permission);
 }

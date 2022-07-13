@@ -1,11 +1,9 @@
 package com.newfood.delivery.domain.service;
 
-import com.newfood.delivery.domain.exceptions.EntityInUseException;
 import com.newfood.delivery.domain.exceptions.StateNotFoundException;
 import com.newfood.delivery.domain.model.State;
 import com.newfood.delivery.domain.repository.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Service;
@@ -27,8 +25,8 @@ public class CreateStateService {
 
     public void delete(Long id) {
         try {
-            repository.delete(id);
-        } catch (InvalidDataAccessApiUsageException e) {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
             throw new StateNotFoundException(
                     String.format("Estado %d não encontrado.", id));
         }

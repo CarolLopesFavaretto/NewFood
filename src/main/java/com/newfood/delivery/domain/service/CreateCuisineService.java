@@ -21,7 +21,7 @@ public class CreateCuisineService {
 
     public void delete(Long id) {
         try {
-            repository.delete(id);
+            repository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
             throw new EntityInUseException(
                     String.format("Tipo de cozinha %d não pode ser deletado, pois está em uso.", id));
@@ -30,7 +30,5 @@ public class CreateCuisineService {
             throw new CuisineNotFoundException(
                     String.format("Tipo de cozinha %d não encontrado.", id));
         }
-
-
     }
 }

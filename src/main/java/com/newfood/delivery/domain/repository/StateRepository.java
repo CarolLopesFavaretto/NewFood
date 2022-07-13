@@ -1,13 +1,9 @@
 package com.newfood.delivery.domain.repository;
 
 import com.newfood.delivery.domain.model.State;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+public interface StateRepository extends JpaRepository<State, Long> {
 
-public interface StateRepository {
 
-    List<State> list();
-    State findById( Long id);
-    State save (State state);
-    void delete (Long id);
 }
