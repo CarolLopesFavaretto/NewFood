@@ -29,6 +29,16 @@ public class CuisineController {
         return repository.findAll();
     }
 
+    @GetMapping("/all-name")
+    public List<Cuisine> findByAllName(@RequestParam String name){
+        return repository.findByAllName(name);
+    }
+
+    @GetMapping("/name")
+    public Optional<Cuisine> findByName(@RequestParam String name){
+        return repository.findByName(name);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Cuisine> findById(@PathVariable Long id) {
         Optional<Cuisine> cuisine = repository.findById(id);
