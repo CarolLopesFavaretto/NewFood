@@ -31,7 +31,7 @@ public class CuisineController {
 
     @GetMapping("/all-name")
     public List<Cuisine> findByAllName(@RequestParam String name){
-        return repository.findByAllName(name);
+        return repository.findListByName(name);
     }
 
     @GetMapping("/name")

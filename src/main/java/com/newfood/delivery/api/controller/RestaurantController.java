@@ -33,6 +33,10 @@ public class RestaurantController {
         return repository.findAll();
     }
 
+    @GetMapping("/for-cuisine")
+    public List<Restaurant> getByName(@RequestParam String name, Long cuisineId) {
+        return repository.getByNameAndCuisine(name,cuisineId);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<Restaurant> findById(@PathVariable Long id) {
         Optional<Restaurant> restaurant = repository.findById(id);
