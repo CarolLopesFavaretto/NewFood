@@ -14,6 +14,7 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -36,6 +37,11 @@ public class RestaurantController {
     @GetMapping("/for-cuisine")
     public List<Restaurant> getByName(@RequestParam String name, Long cuisineId) {
         return repository.getByNameAndCuisine(name,cuisineId);
+    }
+
+    @GetMapping("/for-shipping")
+    public List<Restaurant> getByShipping (@RequestParam String name, BigDecimal shippingBegin, BigDecimal shippingFinal) {
+        return repository.find(name,shippingBegin, shippingFinal);
     }
     @GetMapping("/{id}")
     public ResponseEntity<Restaurant> findById(@PathVariable Long id) {
