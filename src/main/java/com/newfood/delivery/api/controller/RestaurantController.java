@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.newfood.delivery.infra.spec.RestaurantRepositorySpcs.namesEquals;
+import static com.newfood.delivery.infra.spec.RestaurantRepositorySpcs.shippingZero;
+
 @RestController
 @RequestMapping("/restaurant")
 public class RestaurantController {
@@ -36,13 +39,19 @@ public class RestaurantController {
 
     @GetMapping("/for-cuisine")
     public List<Restaurant> getByName(@RequestParam String name, Long cuisineId) {
-        return repository.getByNameAndCuisine(name,cuisineId);
+        return repository.getByNameAndCuisine(name, cuisineId);
     }
 
     @GetMapping("/for-shipping")
-    public List<Restaurant> getByShipping (@RequestParam String name, BigDecimal shippingBegin, BigDecimal shippingFinal) {
-        return repository.find(name,shippingBegin, shippingFinal);
+    public List<Restaurant> getByShipping(@RequestParam String name, BigDecimal shippingBegin, BigDecimal shippingFinal) {
+        return repository.find(name, shippingBegin, shippingFinal);
     }
+
+    @GetMapping("/for-shipping-zero")
+    public List<Restaurant> getByShippingZero(@RequestParam String name) {
+        return repository.findAll(shippingZero().and(namesEquals(name)));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Restaurant> findById(@PathVariable Long id) {
         Optional<Restaurant> restaurant = repository.findById(id);
