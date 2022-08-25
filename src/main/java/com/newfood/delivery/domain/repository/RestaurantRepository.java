@@ -11,5 +11,4 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long>, R
 
      @Query("from Restaurant where name like %:name% and cuisine_id = :cuisineId")
      List<Restaurant> getByNameAndCuisine(String name, Long cuisineId);
-
 }
