@@ -1,15 +1,11 @@
 package com.newfood.delivery.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.newfood.delivery.domain.exceptions.CuisineNotFoundException;
-import com.newfood.delivery.domain.exceptions.RestaurantNotFoundException;
 import com.newfood.delivery.domain.model.Restaurant;
 import com.newfood.delivery.domain.repository.RestaurantRepository;
 import com.newfood.delivery.domain.service.CreateRestaurantService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +13,6 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import static com.newfood.delivery.infra.spec.RestaurantRepositorySpcs.namesEquals;
 import static com.newfood.delivery.infra.spec.RestaurantRepositorySpcs.shippingZero;
@@ -53,41 +48,25 @@ public class RestaurantController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Restaurant> findById(@PathVariable Long id) {
-        Optional<Restaurant> restaurant = repository.findById(id);
-        if (restaurant.isPresent()) {
-            return ResponseEntity.ok().body(restaurant.get());
-        }
-        return ResponseEntity.notFound().build();
+    public Restaurant findById(@PathVariable Long id) {
+        return service.findById(id);
     }
 
     @PostMapping
-    public ResponseEntity<?> created(@RequestBody Restaurant restaurant) {
-        try {
-            restaurant = service.save(restaurant);
-            return ResponseEntity.status(HttpStatus.CREATED).body(restaurant);
-        } catch (CuisineNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-
+    public Restaurant created(@RequestBody Restaurant restaurant) {
+        return service.save(restaurant);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updated(@RequestBody Restaurant restaurant, @PathVariable Long id) {
-        try {
-            Restaurant newRestaurant = repository.findById(id).orElse(null);
-            BeanUtils.copyProperties(restaurant, newRestaurant, "id");
-            service.save(newRestaurant);
-            return ResponseEntity.status(HttpStatus.OK).body(newRestaurant);
-        } catch (CuisineNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public Restaurant updated(@RequestBody Restaurant restaurant, @PathVariable Long id) {
+        Restaurant newRestaurant = service.findById(id);
+        BeanUtils.copyProperties(restaurant, newRestaurant, "id");
+        return service.save(newRestaurant);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updatedByCamps(@PathVariable Long id, @RequestBody Map<String, Object> camps) {
-        Restaurant newRestaurant = repository.findById(id).orElse(null);
-
+    public Restaurant updatedByCamps(@PathVariable Long id, @RequestBody Map<String, Object> camps) {
+        Restaurant newRestaurant = service.findById(id);
         merge(camps, newRestaurant);
         return updated(newRestaurant, id);
     }
@@ -105,14 +84,8 @@ public class RestaurantController {
         });
     }
 
-
     @DeleteMapping("/{id}")
-    public ResponseEntity<Restaurant> delete(@PathVariable Long id) {
-        try {
-            service.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (RestaurantNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
     }
 }

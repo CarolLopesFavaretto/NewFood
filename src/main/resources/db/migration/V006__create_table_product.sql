@@ -1,5 +1,5 @@
 CREATE TABLE public.product (
-	id bigint NOT NULL,
+	id BIGSERIAL NOT NULL,
 	active bool NULL,
 	description varchar(255) NULL,
 	"name" varchar(255) NULL,

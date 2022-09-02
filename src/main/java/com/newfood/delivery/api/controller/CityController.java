@@ -1,18 +1,13 @@
 package com.newfood.delivery.api.controller;
 
-import com.newfood.delivery.domain.exceptions.CityNotFoundException;
-import com.newfood.delivery.domain.exceptions.EntityInUseException;
 import com.newfood.delivery.domain.model.City;
 import com.newfood.delivery.domain.repository.CityRepository;
 import com.newfood.delivery.domain.service.CreateCityService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController()
@@ -32,45 +27,24 @@ public class CityController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<City> findById(@PathVariable Long id) {
-        Optional<City> city = repository.findById(id);
-        if (city.isPresent()) {
-            return ResponseEntity.ok().body(city.get());
-        }
-        return ResponseEntity.notFound().build();
+    public City findById(@PathVariable Long id) {
+        return service.findById(id);
     }
 
     @PostMapping
-    public ResponseEntity<?> created(@RequestBody City city) {
-        try {
-            service.save(city);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (CityNotFoundException e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public City created(@RequestBody City city) {
+        return service.save(city);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updated(@RequestBody City city, @PathVariable Long id) {
-        City newCity = repository.findById(id).orElse(null);
-       try{
-            BeanUtils.copyProperties(city, newCity, "id");
-            service.save(newCity);
-            return ResponseEntity.ok().body(newCity);
-        }catch (CityNotFoundException e){
-           return ResponseEntity.notFound().build();
-       }
+    public City updated(@RequestBody City city, @PathVariable Long id) {
+        City newCity = service.findById(id);
+        BeanUtils.copyProperties(city, newCity, "id");
+        return service.save(newCity);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        try {
-            service.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (CityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch (EntityInUseException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
     }
 }

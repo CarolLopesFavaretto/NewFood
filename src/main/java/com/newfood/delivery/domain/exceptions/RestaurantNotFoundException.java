@@ -1,8 +1,11 @@
 package com.newfood.delivery.domain.exceptions;
 
-public class RestaurantNotFoundException extends RuntimeException{
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-    public RestaurantNotFoundException( String message){
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class RestaurantNotFoundException extends RuntimeException {
+    public RestaurantNotFoundException(String message) {
         super(message);
     }
 }

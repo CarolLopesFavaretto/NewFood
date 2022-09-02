@@ -2,9 +2,7 @@ package com.newfood.delivery.domain.service;
 
 import com.newfood.delivery.domain.exceptions.CityNotFoundException;
 import com.newfood.delivery.domain.model.City;
-import com.newfood.delivery.domain.model.State;
 import com.newfood.delivery.domain.repository.CityRepository;
-import com.newfood.delivery.domain.repository.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -16,13 +14,11 @@ public class CreateCityService {
     private CityRepository repository;
 
     @Autowired
-    private StateRepository stateRepository;
+    private CreateStateService stateService;
 
     public City save(City city) {
         Long id = city.getState().getId();
-        State state = stateRepository.findById(id).orElseThrow(() ->
-                new CityNotFoundException(String.format("O cidade cujo código %d não foi encontrada", id)));
-
+        stateService.findById(id);
         return repository.save(city);
     }
 
@@ -33,5 +29,10 @@ public class CreateCityService {
             throw new CityNotFoundException(
                     String.format("A cidade cujo código %d não foi encontrado.", id));
         }
+    }
+
+    public City findById(Long id) {
+        return repository.findById(id).orElseThrow(() ->
+                new CityNotFoundException(String.format("A cidade cujo código %d não foi encontrado.", id)));
     }
 }

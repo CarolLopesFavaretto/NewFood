@@ -1,6 +1,6 @@
 
 CREATE TABLE public.city (
-	id bigint NOT NULL,
+	id BIGSERIAL NOT NULL,
 	"name" varchar(255) NOT NULL,
 	state_id int8 NULL,
 	CONSTRAINT city_pkey PRIMARY KEY (id)

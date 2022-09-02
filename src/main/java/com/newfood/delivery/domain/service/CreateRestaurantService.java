@@ -8,7 +8,6 @@ import com.newfood.delivery.domain.repository.CuisineRepository;
 import com.newfood.delivery.domain.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,10 +19,12 @@ public class CreateRestaurantService {
     @Autowired
     private CuisineRepository cuisineRepository;
 
+    @Autowired
+    private CreateCuisineService cuisineService;
+
     public Restaurant save(Restaurant restaurant) {
         Long id = restaurant.getCuisine().getId();
-        Cuisine cuisine = cuisineRepository.findById(id).orElseThrow(() ->
-                new CuisineNotFoundException(String.format("O código %d informado não foi encontrado", id)));
+        Cuisine cuisine = cuisineService.findById(id);
         return repository.save(restaurant);
     }
 
@@ -32,7 +33,12 @@ public class CreateRestaurantService {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new RestaurantNotFoundException(
-                    String.format("Tipo de cozinha %d não encontrado.", id));
+                    String.format("Restaurante %d não encontrado.", id));
         }
+    }
+
+    public Restaurant findById(Long id){
+        return repository.findById(id).orElseThrow(() ->
+                new RestaurantNotFoundException(String.format("O código %d informado não foi encontrado", id)));
     }
 }

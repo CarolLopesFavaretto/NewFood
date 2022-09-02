@@ -1,5 +1,5 @@
 CREATE TABLE public.restaurant (
-	id bigint NOT NULL,
+	id BIGSERIAL NOT NULL,
 	"name" varchar(255) NULL,
 	shipping numeric(19, 2) NULL,
 	cuisine_id int8 NULL,

@@ -5,7 +5,6 @@ import com.newfood.delivery.domain.model.State;
 import com.newfood.delivery.domain.repository.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,11 +14,6 @@ public class CreateStateService {
     private StateRepository repository;
 
     public State save(State state) {
-        Long id = state.getId();
-
-        if (state == null) {
-            throw new StateNotFoundException(String.format("O código %d não foi encontrado", id));
-        }
         return repository.save(state);
     }
 
@@ -30,5 +24,9 @@ public class CreateStateService {
             throw new StateNotFoundException(
                     String.format("Estado %d não encontrado.", id));
         }
+    }
+    public State findById(Long id) {
+        return repository.findById(id).orElseThrow(() ->
+                new StateNotFoundException(String.format("Estado %d não encontrado.", id)));
     }
 }

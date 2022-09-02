@@ -1,5 +1,5 @@
 CREATE TABLE public.users (
-	id bigint NOT NULL,
+	id BIGSERIAL NOT NULL,
 	created_at timestamp NULL,
 	email varchar(255) NULL,
 	"name" varchar(255) NULL,

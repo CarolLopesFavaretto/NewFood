@@ -9,13 +9,16 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class CreateCuisineService {
 
     @Autowired
     private CuisineRepository repository;
 
-    public Cuisine save(Cuisine cuisine) {
+
+    public Cuisine add (Cuisine cuisine) {
         return repository.save(cuisine);
     }
 
@@ -30,5 +33,10 @@ public class CreateCuisineService {
             throw new CuisineNotFoundException(
                     String.format("Tipo de cozinha %d não encontrado.", id));
         }
+    }
+
+    public Cuisine findById(Long id) {
+        return repository.findById(id).orElseThrow(() ->
+                new CuisineNotFoundException(String.format("Tipo de cozinha %d não encontrado.", id)));
     }
 }
