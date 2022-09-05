@@ -25,8 +25,9 @@ public class CreateStateService {
                     String.format("Estado %d não encontrado.", id));
         }
     }
+
     public State findById(Long id) {
         return repository.findById(id).orElseThrow(() ->
-                new StateNotFoundException(String.format("Estado %d não encontrado.", id)));
+                new StateNotFoundException(id));
     }
 }

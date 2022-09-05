@@ -1,6 +1,8 @@
 package com.newfood.delivery.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.newfood.delivery.domain.exceptions.BusinessException;
+import com.newfood.delivery.domain.exceptions.CuisineNotFoundException;
 import com.newfood.delivery.domain.model.Restaurant;
 import com.newfood.delivery.domain.repository.RestaurantRepository;
 import com.newfood.delivery.domain.service.CreateRestaurantService;
@@ -54,14 +56,22 @@ public class RestaurantController {
 
     @PostMapping
     public Restaurant created(@RequestBody Restaurant restaurant) {
-        return service.save(restaurant);
+        try {
+            return service.save(restaurant);
+        }catch (CuisineNotFoundException e){
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
     public Restaurant updated(@RequestBody Restaurant restaurant, @PathVariable Long id) {
         Restaurant newRestaurant = service.findById(id);
         BeanUtils.copyProperties(restaurant, newRestaurant, "id");
-        return service.save(newRestaurant);
+        try {
+            return service.save(newRestaurant);
+        }catch (CuisineNotFoundException e){
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @PatchMapping("/{id}")

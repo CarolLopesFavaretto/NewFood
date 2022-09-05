@@ -1,12 +1,11 @@
 package com.newfood.delivery.domain.exceptions;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class StateNotFoundException extends RuntimeException {
+public class StateNotFoundException extends EntityNotFoundException {
 
     public StateNotFoundException(String message) {
         super(message);
+    }
+    public StateNotFoundException(Long id){
+        this(String.format("Estado %d não encontrado.", id));
     }
 }

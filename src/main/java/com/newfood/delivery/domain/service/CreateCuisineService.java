@@ -30,13 +30,11 @@ public class CreateCuisineService {
                     String.format("Tipo de cozinha %d não pode ser deletado, pois está em uso.", id));
 
         } catch (EmptyResultDataAccessException e) {
-            throw new CuisineNotFoundException(
-                    String.format("Tipo de cozinha %d não encontrado.", id));
+            throw new CuisineNotFoundException(id);
         }
     }
-
     public Cuisine findById(Long id) {
         return repository.findById(id).orElseThrow(() ->
-                new CuisineNotFoundException(String.format("Tipo de cozinha %d não encontrado.", id)));
+                new CuisineNotFoundException(id));
     }
 }

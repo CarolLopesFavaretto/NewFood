@@ -1,5 +1,8 @@
 package com.newfood.delivery.api.controller;
 
+import com.newfood.delivery.domain.exceptions.BusinessException;
+import com.newfood.delivery.domain.exceptions.CityNotFoundException;
+import com.newfood.delivery.domain.exceptions.StateNotFoundException;
 import com.newfood.delivery.domain.model.City;
 import com.newfood.delivery.domain.repository.CityRepository;
 import com.newfood.delivery.domain.service.CreateCityService;
@@ -33,14 +36,22 @@ public class CityController {
 
     @PostMapping
     public City created(@RequestBody City city) {
-        return service.save(city);
+        try {
+            return service.save(city);
+        } catch (StateNotFoundException e) {
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
     public City updated(@RequestBody City city, @PathVariable Long id) {
         City newCity = service.findById(id);
         BeanUtils.copyProperties(city, newCity, "id");
-        return service.save(newCity);
+        try {
+            return service.save(newCity);
+        } catch (StateNotFoundException e) {
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
