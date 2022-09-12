@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -30,12 +31,12 @@ public class StateController {
     }
 
     @PostMapping
-    public State created(@RequestBody State state) {
+    public State created(@RequestBody @Valid State state) {
         return service.save(state);
     }
 
     @PutMapping("/{id}")
-    public State updated(@RequestBody State state, @PathVariable Long id) {
+    public State updated(@RequestBody @Valid State state, @PathVariable Long id) {
         State newState = service.findById(id);
         BeanUtils.copyProperties(state, newState, "id");
         return service.save(newState);

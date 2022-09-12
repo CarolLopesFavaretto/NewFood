@@ -8,8 +8,9 @@ public enum ErrorType {
     ENTITY_NOT_FOUND("/entidade-nao-encontrada", "Entidade não encontrada"),
     ENTITY_IN_USE("/entidade-em-uso", "Entidade em uso"),
     BUSINESS("/erro-negocio", "Violação de regra de negócio"),
+    MESSAGE_INEXPLICABLE("/mensagem-inexplicavel", "Mensagem Inexplicavel"),
 
-    MESSAGE_INEXPLICABLE("/mensagem-inexplicavel", "Mensagem Inexplicavel");
+    INVALID_DATA("/dados-invalidos", "Dados Invalidos");
 
     private String title;
     private String uri;

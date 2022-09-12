@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -35,7 +36,7 @@ public class CityController {
     }
 
     @PostMapping
-    public City created(@RequestBody City city) {
+    public City created(@RequestBody @Valid City city) {
         try {
             return service.save(city);
         } catch (StateNotFoundException e) {
@@ -44,7 +45,7 @@ public class CityController {
     }
 
     @PutMapping("/{id}")
-    public City updated(@RequestBody City city, @PathVariable Long id) {
+    public City updated(@RequestBody @Valid City city, @PathVariable Long id) {
         City newCity = service.findById(id);
         BeanUtils.copyProperties(city, newCity, "id");
         try {

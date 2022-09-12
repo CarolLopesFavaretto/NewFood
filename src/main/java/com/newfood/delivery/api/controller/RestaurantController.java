@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.List;
@@ -55,7 +56,7 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public Restaurant created(@RequestBody Restaurant restaurant) {
+    public Restaurant created(@RequestBody @Valid Restaurant restaurant) {
         try {
             return service.save(restaurant);
         }catch (CuisineNotFoundException e){
@@ -64,7 +65,7 @@ public class RestaurantController {
     }
 
     @PutMapping("/{id}")
-    public Restaurant updated(@RequestBody Restaurant restaurant, @PathVariable Long id) {
+    public Restaurant updated(@RequestBody @Valid Restaurant restaurant, @PathVariable Long id) {
         Restaurant newRestaurant = service.findById(id);
         BeanUtils.copyProperties(restaurant, newRestaurant, "id");
         try {

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,12 +43,12 @@ public class CuisineController {
     }
 
     @PostMapping
-    public Cuisine save(@RequestBody Cuisine cuisine) {
+    public Cuisine save(@RequestBody @Valid Cuisine cuisine) {
         return service.add(cuisine);
     }
 
     @PutMapping("/{id}")
-    public Cuisine updated(@PathVariable Long id, @RequestBody Cuisine cuisine) {
+    public Cuisine updated(@PathVariable Long id, @RequestBody @Valid Cuisine cuisine) {
         Cuisine newCuisine = service.findById(id);
         BeanUtils.copyProperties(cuisine, newCuisine, "id"); //igual a: -> newCuisine.setName(cuisine.getName());
         return service.add(newCuisine);

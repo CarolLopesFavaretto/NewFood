@@ -1,5 +1,6 @@
 package com.newfood.delivery.domain.model;
 
+import com.newfood.delivery.domain.Groups;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,6 +9,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,12 +33,18 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @Column(nullable = false)
     private String name;
 
+    @NotNull
+    @DecimalMin("1")
     @Column(nullable = false)
     private BigDecimal shipping;
 
+    @Valid
+    @ConvertGroup(to = Groups.CuisineId.class)
+    @NotNull
     @ManyToOne
     private Cuisine cuisine;
 
