@@ -6,6 +6,7 @@ import com.newfood.delivery.domain.repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CreateCityService {
@@ -16,12 +17,14 @@ public class CreateCityService {
     @Autowired
     private CreateStateService stateService;
 
+    @Transactional
     public City save(City city) {
         Long id = city.getState().getId();
         stateService.findById(id);
         return repository.save(city);
     }
 
+    @Transactional
     public void delete(Long id) {
         try {
             repository.deleteById(id);

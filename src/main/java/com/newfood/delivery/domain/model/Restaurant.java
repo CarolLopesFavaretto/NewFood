@@ -46,6 +46,7 @@ public class Restaurant {
     @ConvertGroup(to = Groups.CuisineId.class)
     @NotNull
     @ManyToOne
+    @JoinColumn(name = "cuisine_id", nullable = false)
     private Cuisine cuisine;
 
     @Embedded

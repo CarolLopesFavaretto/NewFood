@@ -6,6 +6,7 @@ import com.newfood.delivery.domain.repository.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CreateStateService {
@@ -13,10 +14,12 @@ public class CreateStateService {
     @Autowired
     private StateRepository repository;
 
+    @Transactional
     public State save(State state) {
         return repository.save(state);
     }
 
+    @Transactional
     public void delete(Long id) {
         try {
             repository.deleteById(id);
