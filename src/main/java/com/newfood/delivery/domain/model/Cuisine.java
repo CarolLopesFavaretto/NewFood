@@ -1,6 +1,5 @@
 package com.newfood.delivery.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.newfood.delivery.domain.Groups;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,7 +30,6 @@ public class Cuisine {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "cuisine")
     private List<Restaurant> restaurants = new ArrayList<>();
 
