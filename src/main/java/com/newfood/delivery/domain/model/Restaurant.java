@@ -1,6 +1,6 @@
 package com.newfood.delivery.domain.model;
 
-import com.newfood.delivery.domain.Groups;
+import com.newfood.delivery.core.validation.Groups;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,18 +33,18 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+//    @NotBlank
     @Column(nullable = false)
     private String name;
 
-    @NotNull
-    @DecimalMin("1")
+//    @NotNull
+//    @DecimalMin("1")
     @Column(nullable = false)
     private BigDecimal shipping;
 
-    @Valid
-    @ConvertGroup(to = Groups.CuisineId.class)
-    @NotNull
+//    @Valid
+//    @ConvertGroup(to = Groups.CuisineId.class)
+//    @NotNull
     @ManyToOne
     @JoinColumn(name = "cuisine_id", nullable = false)
     private Cuisine cuisine;

@@ -1,7 +1,7 @@
 package com.newfood.delivery.domain.service;
 
-import com.newfood.delivery.domain.exceptions.CuisineNotFoundException;
-import com.newfood.delivery.domain.exceptions.EntityInUseException;
+import com.newfood.delivery.api.exceptions.CuisineNotFoundException;
+import com.newfood.delivery.api.exceptions.EntityInUseException;
 import com.newfood.delivery.domain.model.Cuisine;
 import com.newfood.delivery.domain.repository.CuisineRepository;
 import org.springframework.beans.factory.annotation.Autowired;

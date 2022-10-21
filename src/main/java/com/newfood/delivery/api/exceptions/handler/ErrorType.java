@@ -1,4 +1,4 @@
-package com.newfood.delivery.domain.exceptions.handler;
+package com.newfood.delivery.api.exceptions.handler;
 
 import lombok.Getter;
 

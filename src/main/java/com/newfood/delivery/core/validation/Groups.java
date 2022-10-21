@@ -1,4 +1,4 @@
-package com.newfood.delivery.domain;
+package com.newfood.delivery.core.validation;
 
 public interface Groups {
 

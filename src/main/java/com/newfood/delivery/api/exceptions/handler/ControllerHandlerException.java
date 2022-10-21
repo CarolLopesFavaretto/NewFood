@@ -1,9 +1,9 @@
-package com.newfood.delivery.domain.exceptions.handler;
+package com.newfood.delivery.api.exceptions.handler;
 
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
-import com.newfood.delivery.domain.exceptions.BusinessException;
-import com.newfood.delivery.domain.exceptions.EntityInUseException;
-import com.newfood.delivery.domain.exceptions.EntityNotFoundException;
+import com.newfood.delivery.api.exceptions.BusinessException;
+import com.newfood.delivery.api.exceptions.EntityNotFoundException;
+import com.newfood.delivery.api.exceptions.EntityInUseException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

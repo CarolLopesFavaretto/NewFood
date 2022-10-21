@@ -1,8 +1,7 @@
 package com.newfood.delivery.api.controller;
 
-import com.newfood.delivery.domain.exceptions.BusinessException;
-import com.newfood.delivery.domain.exceptions.CityNotFoundException;
-import com.newfood.delivery.domain.exceptions.StateNotFoundException;
+import com.newfood.delivery.api.exceptions.BusinessException;
+import com.newfood.delivery.api.exceptions.StateNotFoundException;
 import com.newfood.delivery.domain.model.City;
 import com.newfood.delivery.domain.repository.CityRepository;
 import com.newfood.delivery.domain.service.CreateCityService;

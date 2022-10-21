@@ -1,11 +1,13 @@
 package com.newfood.delivery.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.newfood.delivery.domain.exceptions.BusinessException;
-import com.newfood.delivery.domain.exceptions.CuisineNotFoundException;
+import com.newfood.delivery.api.exceptions.BusinessException;
+import com.newfood.delivery.api.exceptions.CuisineNotFoundException;
 import com.newfood.delivery.domain.model.Restaurant;
 import com.newfood.delivery.domain.repository.RestaurantRepository;
 import com.newfood.delivery.domain.service.CreateRestaurantService;
+import com.newfood.delivery.dto.RestaurantDTO;
+import com.newfood.delivery.dto.response.RestaurantResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ReflectionUtils;
@@ -30,9 +32,13 @@ public class RestaurantController {
     @Autowired
     private RestaurantRepository repository;
 
+    @Autowired
+    private RestaurantDTO dto;
+
     @GetMapping
-    public List<Restaurant> list() {
-        return repository.findAll();
+    public List<RestaurantResponse> list() {
+        List<Restaurant> restaurants = repository.findAll();
+        return dto.toCollectionModel(restaurants);
     }
 
     @GetMapping("/for-cuisine")
@@ -51,15 +57,16 @@ public class RestaurantController {
     }
 
     @GetMapping("/{id}")
-    public Restaurant findById(@PathVariable Long id) {
-        return service.findById(id);
+    public RestaurantResponse findById(@PathVariable Long id) {
+        Restaurant restaurant = service.findById(id);
+        return dto.toModel(restaurant);
     }
 
     @PostMapping
     public Restaurant created(@RequestBody @Valid Restaurant restaurant) {
         try {
             return service.save(restaurant);
-        }catch (CuisineNotFoundException e){
+        } catch (CuisineNotFoundException e) {
             throw new BusinessException(e.getMessage());
         }
     }
@@ -70,7 +77,7 @@ public class RestaurantController {
         BeanUtils.copyProperties(restaurant, newRestaurant, "id");
         try {
             return service.save(newRestaurant);
-        }catch (CuisineNotFoundException e){
+        } catch (CuisineNotFoundException e) {
             throw new BusinessException(e.getMessage());
         }
     }

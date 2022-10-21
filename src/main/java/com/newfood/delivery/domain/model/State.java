@@ -1,6 +1,6 @@
 package com.newfood.delivery.domain.model;
 
-import com.newfood.delivery.domain.Groups;
+import com.newfood.delivery.core.validation.Groups;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,6 +1,6 @@
 package com.newfood.delivery.domain.service;
 
-import com.newfood.delivery.domain.exceptions.StateNotFoundException;
+import com.newfood.delivery.api.exceptions.StateNotFoundException;
 import com.newfood.delivery.domain.model.State;
 import com.newfood.delivery.domain.repository.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.newfood.delivery.domain.exceptions;
+package com.newfood.delivery.api.exceptions;
 
 public abstract class EntityNotFoundException extends BusinessException{
 

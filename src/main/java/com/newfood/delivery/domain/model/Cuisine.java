@@ -1,6 +1,6 @@
 package com.newfood.delivery.domain.model;
 
-import com.newfood.delivery.domain.Groups;
+import com.newfood.delivery.core.validation.Groups;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +20,7 @@ import java.util.List;
 @Table(name = "cuisine")
 public class Cuisine {
 
-    @NotNull(groups = Groups.CuisineId.class)
+//    @NotNull(groups = Groups.CuisineId.class)
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)

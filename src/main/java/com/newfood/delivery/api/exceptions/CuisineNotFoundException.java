@@ -1,4 +1,4 @@
-package com.newfood.delivery.domain.exceptions;
+package com.newfood.delivery.api.exceptions;
 
 public class CuisineNotFoundException extends EntityNotFoundException {
     public CuisineNotFoundException(String message) {

@@ -1,6 +1,6 @@
 package com.newfood.delivery.domain.service;
 
-import com.newfood.delivery.domain.exceptions.CityNotFoundException;
+import com.newfood.delivery.api.exceptions.CityNotFoundException;
 import com.newfood.delivery.domain.model.City;
 import com.newfood.delivery.domain.repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
