@@ -1,0 +1,1 @@
+alter table public.restaurant add column active boolean;

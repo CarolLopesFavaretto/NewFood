@@ -7,6 +7,7 @@ import com.newfood.delivery.domain.model.Restaurant;
 import com.newfood.delivery.domain.repository.RestaurantRepository;
 import com.newfood.delivery.domain.service.CreateRestaurantService;
 import com.newfood.delivery.dto.RestaurantDTO;
+import com.newfood.delivery.dto.request.RestaurantRequest;
 import com.newfood.delivery.dto.response.RestaurantResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,9 +64,10 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public Restaurant created(@RequestBody @Valid Restaurant restaurant) {
+    public RestaurantResponse created(@RequestBody @Valid RestaurantRequest request) {
         try {
-            return service.save(restaurant);
+            Restaurant restaurant = dto.toObject(request);
+            return dto.toModel(service.save(restaurant));
         } catch (CuisineNotFoundException e) {
             throw new BusinessException(e.getMessage());
         }

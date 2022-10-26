@@ -23,7 +23,6 @@ public class CityController {
     @Autowired
     private CreateCityService service;
 
-
     @GetMapping
     public List<City> list() {
         return repository.findAll();

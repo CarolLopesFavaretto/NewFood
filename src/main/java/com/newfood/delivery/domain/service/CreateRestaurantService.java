@@ -3,7 +3,6 @@ package com.newfood.delivery.domain.service;
 import com.newfood.delivery.api.exceptions.RestaurantNotFoundException;
 import com.newfood.delivery.domain.model.Cuisine;
 import com.newfood.delivery.domain.model.Restaurant;
-import com.newfood.delivery.domain.repository.CuisineRepository;
 import com.newfood.delivery.domain.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -15,10 +14,6 @@ public class CreateRestaurantService {
 
     @Autowired
     private RestaurantRepository repository;
-
-    @Autowired
-    private CuisineRepository cuisineRepository;
-
     @Autowired
     private CreateCuisineService cuisineService;
 
@@ -38,6 +33,18 @@ public class CreateRestaurantService {
             throw new RestaurantNotFoundException(
                     String.format("Restaurante %d não encontrado.", id));
         }
+    }
+
+    @Transactional
+    public void active(Long id) {
+        Restaurant restaurant = findById(id);
+        restaurant.active();
+    }
+
+    @Transactional
+    public void inactive(Long id) {
+        Restaurant restaurant = findById(id);
+        restaurant.inactive();
     }
 
     public Restaurant findById(Long id) {

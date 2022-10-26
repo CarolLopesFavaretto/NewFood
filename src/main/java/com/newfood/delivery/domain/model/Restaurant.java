@@ -1,6 +1,5 @@
 package com.newfood.delivery.domain.model;
 
-import com.newfood.delivery.core.validation.Groups;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,11 +8,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.groups.ConvertGroup;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,24 +27,20 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @NotBlank
     @Column(nullable = false)
     private String name;
 
-//    @NotNull
-//    @DecimalMin("1")
     @Column(nullable = false)
     private BigDecimal shipping;
 
-//    @Valid
-//    @ConvertGroup(to = Groups.CuisineId.class)
-//    @NotNull
     @ManyToOne
     @JoinColumn(name = "cuisine_id", nullable = false)
     private Cuisine cuisine;
 
     @Embedded
     private Address address;
+
+    private Boolean active = Boolean.TRUE;
 
     @ManyToMany
     @JoinTable(name = "restaurants_payment", joinColumns = @JoinColumn(name = "restaurant_id"), inverseJoinColumns = @JoinColumn(name = "payment_id"))
@@ -65,4 +55,12 @@ public class Restaurant {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    public void active() {
+        setActive(true);
+    }
+
+    public void inactive() {
+        setActive(false);
+    }
 }

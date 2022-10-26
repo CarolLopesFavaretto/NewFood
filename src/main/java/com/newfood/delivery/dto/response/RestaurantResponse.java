@@ -14,4 +14,5 @@ public class RestaurantResponse {
     private String name;
     private BigDecimal shipping;
     private CuisineResponse cuisine;
+    private Boolean active;
 }
