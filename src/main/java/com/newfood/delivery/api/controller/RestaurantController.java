@@ -1,6 +1,5 @@
 package com.newfood.delivery.api.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.newfood.delivery.api.exceptions.BusinessException;
 import com.newfood.delivery.api.exceptions.CuisineNotFoundException;
 import com.newfood.delivery.domain.model.Restaurant;
@@ -9,16 +8,13 @@ import com.newfood.delivery.domain.service.CreateRestaurantService;
 import com.newfood.delivery.dto.RestaurantDTO;
 import com.newfood.delivery.dto.request.RestaurantRequest;
 import com.newfood.delivery.dto.response.RestaurantResponse;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ReflectionUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import static com.newfood.delivery.infra.spec.RestaurantRepositorySpcs.namesEquals;
 import static com.newfood.delivery.infra.spec.RestaurantRepositorySpcs.shippingZero;
@@ -74,34 +70,26 @@ public class RestaurantController {
     }
 
     @PutMapping("/{id}")
-    public Restaurant updated(@RequestBody @Valid Restaurant restaurant, @PathVariable Long id) {
-        Restaurant newRestaurant = service.findById(id);
-        BeanUtils.copyProperties(restaurant, newRestaurant, "id");
+    public RestaurantResponse updated(@RequestBody @Valid RestaurantRequest restaurant, @PathVariable Long id) {
         try {
-            return service.save(newRestaurant);
+            Restaurant newRestaurant = service.findById(id);
+            dto.updateToObject(restaurant, newRestaurant);
+            return dto.toModel(service.save(newRestaurant));
         } catch (CuisineNotFoundException e) {
             throw new BusinessException(e.getMessage());
         }
     }
 
-    @PatchMapping("/{id}")
-    public Restaurant updatedByCamps(@PathVariable Long id, @RequestBody Map<String, Object> camps) {
-        Restaurant newRestaurant = service.findById(id);
-        merge(camps, newRestaurant);
-        return updated(newRestaurant, id);
+    @PutMapping("/{id}/active")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void active(@PathVariable Long id) {
+        service.active(id);
     }
 
-    private void merge(Map<String, Object> origin, Restaurant destiny) {
-        ObjectMapper mapper = new ObjectMapper();
-        Restaurant restaurantOrigin = mapper.convertValue(origin, Restaurant.class);
-
-        origin.forEach((propertsName, valueName) -> {
-            Field field = ReflectionUtils.findField(Restaurant.class, propertsName);
-            field.setAccessible(true);
-            Object newValue = ReflectionUtils.getField(field, restaurantOrigin);
-
-            ReflectionUtils.setField(field, destiny, newValue);
-        });
+    @DeleteMapping("/{id}/active")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void inactive(@PathVariable Long id) {
+        service.inactive(id);
     }
 
     @DeleteMapping("/{id}")

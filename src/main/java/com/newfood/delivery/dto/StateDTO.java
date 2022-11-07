@@ -16,11 +16,11 @@ public class StateDTO {
     private ModelMapper mapper;
 
     public State toObject(StateRequest request) {
-        return mapper.map(StateRequest.class, State.class);
+        return mapper.map(request, State.class);
     }
 
     public StateRequest toModel(State state) {
-        return mapper.map(State.class, StateRequest.class);
+        return mapper.map(state, StateRequest.class);
     }
 
     public List<StateRequest> toCollectionModel(List<State> states) {

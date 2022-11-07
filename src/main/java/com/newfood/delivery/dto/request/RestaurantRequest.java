@@ -22,5 +22,5 @@ public class RestaurantRequest {
 
     @Valid
     @NotNull
-    private CuisineRequest cuisine;
+    private CuisineIdRequest cuisine;
 }

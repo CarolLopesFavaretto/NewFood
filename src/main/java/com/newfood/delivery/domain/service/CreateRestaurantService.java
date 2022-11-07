@@ -29,6 +29,7 @@ public class CreateRestaurantService {
     public void delete(Long id) {
         try {
             repository.deleteById(id);
+            repository.flush();
         } catch (EmptyResultDataAccessException e) {
             throw new RestaurantNotFoundException(
                     String.format("Restaurante %d não encontrado.", id));

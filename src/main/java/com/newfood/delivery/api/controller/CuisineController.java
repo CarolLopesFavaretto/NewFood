@@ -3,7 +3,9 @@ package com.newfood.delivery.api.controller;
 import com.newfood.delivery.domain.model.Cuisine;
 import com.newfood.delivery.domain.repository.CuisineRepository;
 import com.newfood.delivery.domain.service.CreateCuisineService;
-import org.springframework.beans.BeanUtils;
+import com.newfood.delivery.dto.CuisineDTO;
+import com.newfood.delivery.dto.request.CuisineRequest;
+import com.newfood.delivery.dto.response.CuisineResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +24,13 @@ public class CuisineController {
     @Autowired
     private CreateCuisineService service;
 
+    @Autowired
+    private CuisineDTO dto;
+
     @GetMapping
-    public List<Cuisine> list() {
-        return repository.findAll();
+    public List<CuisineResponse> list() {
+        List<Cuisine> cuisines = repository.findAll();
+        return dto.toCollectionModel(cuisines);
     }
 
     @GetMapping("/all-name")
@@ -38,20 +44,22 @@ public class CuisineController {
     }
 
     @GetMapping("/{id}")
-    public Cuisine findById(@PathVariable Long id) {
-        return service.findById(id);
+    public CuisineResponse findById(@PathVariable Long id) {
+        Cuisine cuisine = service.findById(id);
+        return dto.toModel(service.findById(id));
     }
 
     @PostMapping
-    public Cuisine save(@RequestBody @Valid Cuisine cuisine) {
-        return service.add(cuisine);
+    public CuisineResponse save(@RequestBody @Valid CuisineRequest request) {
+        Cuisine cuisine = dto.toObject(request);
+        return dto.toModel(service.add(cuisine));
     }
 
     @PutMapping("/{id}")
-    public Cuisine updated(@PathVariable Long id, @RequestBody @Valid Cuisine cuisine) {
+    public CuisineResponse updated(@PathVariable Long id, @RequestBody @Valid CuisineRequest request) {
         Cuisine newCuisine = service.findById(id);
-        BeanUtils.copyProperties(cuisine, newCuisine, "id"); //igual a: -> newCuisine.setName(cuisine.getName());
-        return service.add(newCuisine);
+        dto.updateToObject(request, newCuisine);
+        return dto.toModel(service.add(newCuisine));
     }
 
     @DeleteMapping("/{id}")

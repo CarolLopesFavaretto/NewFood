@@ -18,7 +18,7 @@ public class RestaurantDTO {
     private ModelMapper mapper;
 
     public Restaurant toObject(RestaurantRequest request) {
-        return mapper.map(RestaurantRequest.class, Restaurant.class);
+        return mapper.map(request, Restaurant.class);
     }
     public RestaurantResponse toModel(Restaurant restaurant) {
         return mapper.map(restaurant, RestaurantResponse.class);

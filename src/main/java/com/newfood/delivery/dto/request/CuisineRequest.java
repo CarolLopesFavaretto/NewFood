@@ -3,12 +3,12 @@ package com.newfood.delivery.dto.request;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Setter
 @Getter
 public class CuisineRequest {
 
-    @NotNull
-    private Long id;
+    @NotBlank
+    private String name;
 }
