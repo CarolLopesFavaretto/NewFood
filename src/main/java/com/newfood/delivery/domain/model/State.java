@@ -17,7 +17,6 @@ import javax.validation.constraints.NotNull;
 @Table(name = "state")
 public class State {
 
-    @NotNull(groups = Groups.StateId.class)
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -3,6 +3,7 @@ package com.newfood.delivery.dto;
 import com.newfood.delivery.domain.model.City;
 import com.newfood.delivery.domain.model.State;
 import com.newfood.delivery.dto.request.CityRequest;
+import com.newfood.delivery.dto.response.CityResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,11 +21,11 @@ public class CityDTO {
         return mapper.map(request, City.class);
     }
 
-    public CityRequest toModel(City city) {
-        return mapper.map(city, CityRequest.class);
+    public CityResponse toModel(City city) {
+        return mapper.map(city, CityResponse.class);
     }
 
-    public List<CityRequest> toCollectionModel(List<City> cities) {
+    public List<CityResponse> toCollectionModel(List<City> cities) {
         return cities.stream()
                 .map(city -> toModel(city))
                 .collect(Collectors.toList());

@@ -7,8 +7,8 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
-public class StateRequest {
+public class PaymentRequest {
 
     @NotBlank
-    private String name;
+    private String description;
 }

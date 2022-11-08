@@ -3,7 +3,9 @@ package com.newfood.delivery.api.controller;
 import com.newfood.delivery.domain.model.State;
 import com.newfood.delivery.domain.repository.StateRepository;
 import com.newfood.delivery.domain.service.CreateStateService;
-import org.springframework.beans.BeanUtils;
+import com.newfood.delivery.dto.StateDTO;
+import com.newfood.delivery.dto.request.StateRequest;
+import com.newfood.delivery.dto.response.StateResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,26 +22,32 @@ public class StateController {
     @Autowired
     private CreateStateService service;
 
+    @Autowired
+    private StateDTO dto;
+
     @GetMapping
-    public List<State> list() {
-        return repository.findAll();
+    public List<StateResponse> list() {
+        List<State> state = repository.findAll();
+        return dto.toCollectionModel(state);
     }
 
     @GetMapping("/{id}")
-    public State findById(@PathVariable Long id) {
-        return service.findById(id);
+    public StateResponse findById(@PathVariable Long id) {
+        State state = service.findById(id);
+        return dto.toModel(state);
     }
 
     @PostMapping
-    public State created(@RequestBody @Valid State state) {
-        return service.save(state);
+    public StateResponse created(@RequestBody @Valid StateRequest request) {
+        State state = dto.toObject(request);
+        return dto.toModel(service.save(state));
     }
 
     @PutMapping("/{id}")
-    public State updated(@RequestBody @Valid State state, @PathVariable Long id) {
+    public StateResponse updated(@RequestBody @Valid StateRequest request, @PathVariable Long id) {
         State newState = service.findById(id);
-        BeanUtils.copyProperties(state, newState, "id");
-        return service.save(newState);
+        dto.updateToObject(request, newState);
+        return dto.toModel(service.save(newState));
     }
 
     @DeleteMapping("/{id}")

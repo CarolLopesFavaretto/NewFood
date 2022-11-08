@@ -1,22 +1,22 @@
 package com.newfood.delivery.domain.service;
 
-import com.newfood.delivery.api.exceptions.StateNotFoundException;
-import com.newfood.delivery.domain.model.State;
-import com.newfood.delivery.domain.repository.StateRepository;
+import com.newfood.delivery.api.exceptions.PaymentNotFound;
+import com.newfood.delivery.domain.model.Payment;
+import com.newfood.delivery.domain.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CreateStateService {
+public class CreatePaymentService {
 
     @Autowired
-    private StateRepository repository;
+    private PaymentRepository repository;
 
     @Transactional
-    public State save(State state) {
-        return repository.save(state);
+    public Payment save(Payment payment) {
+        return repository.save(payment);
     }
 
     @Transactional
@@ -25,13 +25,13 @@ public class CreateStateService {
             repository.deleteById(id);
             repository.flush();
         } catch (EmptyResultDataAccessException e) {
-            throw new StateNotFoundException(
-                    String.format("Estado %d não encontrado.", id));
+            throw new PaymentNotFound(e.getMessage());
         }
     }
 
-    public State findById(Long id) {
+    public Payment findById(Long id) {
         return repository.findById(id).orElseThrow(() ->
-                new StateNotFoundException(id));
+                new PaymentNotFound(String.format("O código %d informado não foi encontrado", id)));
     }
+
 }

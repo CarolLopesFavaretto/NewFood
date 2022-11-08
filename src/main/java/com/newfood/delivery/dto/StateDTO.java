@@ -2,6 +2,7 @@ package com.newfood.delivery.dto;
 
 import com.newfood.delivery.domain.model.State;
 import com.newfood.delivery.dto.request.StateRequest;
+import com.newfood.delivery.dto.response.StateResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,11 +20,11 @@ public class StateDTO {
         return mapper.map(request, State.class);
     }
 
-    public StateRequest toModel(State state) {
-        return mapper.map(state, StateRequest.class);
+    public StateResponse toModel(State state) {
+        return mapper.map(state, StateResponse.class);
     }
 
-    public List<StateRequest> toCollectionModel(List<State> states) {
+    public List<StateResponse> toCollectionModel(List<State> states) {
         return states.stream()
                 .map(state -> toModel(state))
                 .collect(Collectors.toList());

@@ -5,7 +5,9 @@ import com.newfood.delivery.api.exceptions.StateNotFoundException;
 import com.newfood.delivery.domain.model.City;
 import com.newfood.delivery.domain.repository.CityRepository;
 import com.newfood.delivery.domain.service.CreateCityService;
-import org.springframework.beans.BeanUtils;
+import com.newfood.delivery.dto.CityDTO;
+import com.newfood.delivery.dto.request.CityRequest;
+import com.newfood.delivery.dto.response.CityResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,31 +25,37 @@ public class CityController {
     @Autowired
     private CreateCityService service;
 
+    @Autowired
+    private CityDTO dto;
+
     @GetMapping
-    public List<City> list() {
-        return repository.findAll();
+    public List<CityResponse> list() {
+        List<City> cities = repository.findAll();
+        return dto.toCollectionModel(cities);
     }
 
     @GetMapping("/{id}")
-    public City findById(@PathVariable Long id) {
-        return service.findById(id);
+    public CityResponse findById(@PathVariable Long id) {
+        City city = service.findById(id);
+        return dto.toModel(city);
     }
 
     @PostMapping
-    public City created(@RequestBody @Valid City city) {
+    public CityResponse created(@RequestBody @Valid CityRequest request) {
         try {
-            return service.save(city);
+            City city = dto.toObject(request);
+            return dto.toModel(service.save(city));
         } catch (StateNotFoundException e) {
             throw new BusinessException(e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public City updated(@RequestBody @Valid City city, @PathVariable Long id) {
-        City newCity = service.findById(id);
-        BeanUtils.copyProperties(city, newCity, "id");
+    public CityResponse updated(@RequestBody @Valid CityRequest request, @PathVariable Long id) {
         try {
-            return service.save(newCity);
+            City newCity = service.findById(id);
+            dto.updateToObject(request, newCity);
+            return dto.toModel(service.save(newCity));
         } catch (StateNotFoundException e) {
             throw new BusinessException(e.getMessage());
         }

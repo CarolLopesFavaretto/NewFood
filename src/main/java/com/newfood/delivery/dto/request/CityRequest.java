@@ -16,5 +16,5 @@ public class CityRequest {
 
     @Valid
     @NotNull
-    private StateRequest state;
+    private StateIdRequest state;
 }

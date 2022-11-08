@@ -28,6 +28,7 @@ public class CreateCityService {
     public void delete(Long id) {
         try {
             repository.deleteById(id);
+            repository.flush();
         } catch (EmptyResultDataAccessException e) {
             throw new CityNotFoundException(
                     String.format("A cidade cujo código %d não foi encontrado.", id));
