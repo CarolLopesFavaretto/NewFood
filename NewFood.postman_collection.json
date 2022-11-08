@@ -10,6 +10,9 @@
 			"item": [
 				{
 					"name": "List Cuisine",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -19,6 +22,15 @@
 								"type": "default"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "localhost:8080/cuisine",
 							"host": [
@@ -34,18 +46,25 @@
 				},
 				{
 					"name": "Find by Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "localhost:8080/cuisine/2",
+							"raw": "localhost:8080/cuisine/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"cuisine",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -58,7 +77,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Coreana\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Baiana\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -66,14 +85,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/cuisine/4",
+							"raw": "localhost:8080/cuisine/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"cuisine",
-								"4"
+								"1"
 							]
 						}
 					},
@@ -86,7 +105,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Coreana\"\r\n}",
+							"raw": "{\r\n    \"name\": \"coreana\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -124,6 +143,31 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Find By Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/cuisine/name?name=itali",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cuisine",
+								"name"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "itali"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -132,6 +176,9 @@
 			"item": [
 				{
 					"name": "List Restaurant",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -141,6 +188,15 @@
 								"type": "default"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "localhost:8080/restaurant",
 							"host": [
@@ -155,10 +211,141 @@
 					"response": []
 				},
 				{
+					"name": "List Restaurant By Name",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/restaurant/for-cuisine?name=a&cuisineId=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurant",
+								"for-cuisine"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "a"
+								},
+								{
+									"key": "cuisineId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Restaurant By Shipping",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/restaurant/for-shipping-zero?name=o",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurant",
+								"for-shipping-zero"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "o"
+								},
+								{
+									"key": "shippingBegin",
+									"value": "30",
+									"disabled": true
+								},
+								{
+									"key": "shippingFinal",
+									"value": "31.50",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Find by Id",
 					"request": {
 						"method": "GET",
 						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurant/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurant",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Created Restaurant",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"shipping\": 1,\r\n    \"cuisine\": {\r\n        \"id\": null\r\n    },\r\n    \"payment\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/restaurant",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updated Restaurant",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"shipping\": 0,\r\n    \"cuisine\": {\r\n        \"id\": null\r\n    },\r\n    \"payment\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "localhost:8080/restaurant/1",
 							"host": [
@@ -174,13 +361,32 @@
 					"response": []
 				},
 				{
-					"name": "Created Restaurant",
+					"name": "Delete Restaurant",
 					"request": {
-						"method": "POST",
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurant/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurant",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updated By Field",
+					"request": {
+						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Tapicaria\",\r\n    \"shipping\": 30.70,\r\n    \"cuisine\": {\r\n        \"id\": 1\r\n    },\r\n    \"payment\": null\r\n}",
+							"raw": "{\r\n    \"name\": \"Pizzaria\",\r\n    \"shipping\": 35\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -188,13 +394,386 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/restaurant",
+							"raw": "localhost:8080/restaurant/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"restaurant"
+								"restaurant",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "State",
+			"item": [
+				{
+					"name": "List State",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/state",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"state"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/state/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"state",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Created State",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Bahia\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/state",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"state"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updated State",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"São Paulo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/state/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"state",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete State",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/state/5",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"state",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "City",
+			"item": [
+				{
+					"name": "List City",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/city",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"city"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/city/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"city",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Created City",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/xml",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Lucelia\",\r\n    \"state\": {\r\n        \"id\": 10\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/city",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"city"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updated City",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Adamantina\",\r\n    \"state\": {\r\n        \"id\": 10\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/city/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"city",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete City",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/city/5",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"city",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "List Payment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/city",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"city"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/city/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"city",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Created Payment",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/xml",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Lucelia\",\r\n    \"state\": {\r\n        \"id\": 10\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/city",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"city"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updated Payment",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Adamantina\",\r\n    \"state\": {\r\n        \"id\": 10\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/city/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"city",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Payment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/city/5",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"city",
+								"5"
 							]
 						}
 					},
