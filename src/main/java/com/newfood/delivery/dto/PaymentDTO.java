@@ -30,11 +30,8 @@ public class PaymentDTO {
                 .collect(Collectors.toList());
     }
 
-    public void updatedToObject (PaymentRequest request, Payment payment){
+    public void updatedToObject(PaymentRequest request, Payment payment) {
         payment.setDescription(new String());
         mapper.map(request, payment);
-
-
-
     }
 }

@@ -1,6 +1,7 @@
 package com.newfood.delivery.domain.service;
 
 import com.newfood.delivery.api.exceptions.RestaurantNotFoundException;
+import com.newfood.delivery.domain.model.City;
 import com.newfood.delivery.domain.model.Cuisine;
 import com.newfood.delivery.domain.model.Restaurant;
 import com.newfood.delivery.domain.repository.RestaurantRepository;
@@ -17,11 +18,20 @@ public class CreateRestaurantService {
     @Autowired
     private CreateCuisineService cuisineService;
 
+    @Autowired
+    private CreateCityService cityService;
+
     @Transactional
     public Restaurant save(Restaurant restaurant) {
-        Long id = restaurant.getCuisine().getId();
-        Cuisine cuisine = cuisineService.findById(id);
+        Long cuisineId = restaurant.getCuisine().getId();
+        Long cityId = restaurant.getAddress().getCity().getId();
+
+        Cuisine cuisine = cuisineService.findById(cuisineId);
+        City city = cityService.findById(cityId);
+
         restaurant.setCuisine(cuisine);
+        restaurant.getAddress().setCity(city);
+
         return repository.save(restaurant);
     }
 
