@@ -11,7 +11,9 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -44,7 +46,7 @@ public class Restaurant {
 
     @ManyToMany
     @JoinTable(name = "restaurants_payment", joinColumns = @JoinColumn(name = "restaurant_id"), inverseJoinColumns = @JoinColumn(name = "payment_id"))
-    private List<Payment> payment = new ArrayList<>();
+    private Set<Payment> payment = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "restaurants_products", joinColumns = @JoinColumn(name = "restaurant_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
@@ -62,5 +64,13 @@ public class Restaurant {
 
     public void inactive() {
         setActive(false);
+    }
+
+    public Boolean removePayment(Payment payment) {
+        return getPayment().remove(payment);
+    }
+
+    public Boolean addPayment(Payment payment) {
+        return getPayment().add(payment);
     }
 }

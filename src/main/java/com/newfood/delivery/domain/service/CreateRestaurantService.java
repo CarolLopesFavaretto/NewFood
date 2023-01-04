@@ -3,6 +3,7 @@ package com.newfood.delivery.domain.service;
 import com.newfood.delivery.api.exceptions.RestaurantNotFoundException;
 import com.newfood.delivery.domain.model.City;
 import com.newfood.delivery.domain.model.Cuisine;
+import com.newfood.delivery.domain.model.Payment;
 import com.newfood.delivery.domain.model.Restaurant;
 import com.newfood.delivery.domain.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class CreateRestaurantService {
 
     @Autowired
     private CreateCityService cityService;
+
+    @Autowired
+    private CreatePaymentService paymentService;
 
     @Transactional
     public Restaurant save(Restaurant restaurant) {
@@ -44,6 +48,20 @@ public class CreateRestaurantService {
             throw new RestaurantNotFoundException(
                     String.format("Restaurante %d não encontrado.", id));
         }
+    }
+
+    @Transactional
+    public void removePayment(Long restaurantId, Long paymentId) {
+        Restaurant restaurant = findById(restaurantId);
+        Payment payment = paymentService.findById(paymentId);
+        restaurant.getPayment().remove(payment);
+    }
+
+    @Transactional
+    public void addPayment(Long restaurantId, Long paymentId) {
+        Restaurant restaurant = findById(restaurantId);
+        Payment payment = paymentService.findById(paymentId);
+        restaurant.getPayment().add(payment);
     }
 
     @Transactional
