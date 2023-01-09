@@ -76,6 +76,18 @@ public class CreateRestaurantService {
         restaurant.inactive();
     }
 
+    @Transactional
+    public void open(Long id) {
+        Restaurant restaurant = findById(id);
+        restaurant.open();
+    }
+
+    @Transactional
+    public void close(Long id) {
+        Restaurant restaurant = findById(id);
+        restaurant.close();
+    }
+
     public Restaurant findById(Long id) {
         return repository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException(String.format("O código %d informado não foi encontrado", id)));

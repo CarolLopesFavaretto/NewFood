@@ -19,18 +19,18 @@ class DeliveryApplicationTests {
     @Autowired
     private CreateCuisineService service;
 
-//    @Test
-//    void createdCuisine() {
-//        //cenário
-//        Cuisine newCuisine = new Cuisine();
-//        newCuisine.setName("Americana");
-//        //ação
-//        newCuisine = service.add(newCuisine);
-//        //validação
-//        assertThat(newCuisine).isNotNull();
-//        assertThat(newCuisine.getId()).isNotNull();
-//    }
-//
+    @Test
+    void createdCuisine() {
+        //cenário
+        Cuisine newCuisine = new Cuisine();
+        newCuisine.setName("Americana");
+        //ação
+        newCuisine = service.add(newCuisine);
+        //validação
+        assertThat(newCuisine).isNotNull();
+        assertThat(newCuisine.getId()).isNotNull();
+    }
+
 //    @Test
 //    void createdCuisineWithNameNull() {
 //        Cuisine newCuisine = new Cuisine();
@@ -41,19 +41,19 @@ class DeliveryApplicationTests {
 //
 //        assertThat(error).isNotNull();
 //    }
-//
-//    @Test
-//    void deleteCuisineInUse() {
-//        EntityNotFoundException error = Assertions.assertThrows(EntityNotFoundException.class, ()
-//                -> service.delete(3L));
-//        assertThat(error).isNotNull();
-//    }
-//
-//    @Test
-//    void deleteCuisineNotExistent() {
-//        CuisineNotFoundException error = Assertions.assertThrows(CuisineNotFoundException.class, ()
-//                -> service.delete(50L));
-//        assertThat(error).isNotNull();
-//    }
+
+    @Test
+    void deleteCuisineInUse() {
+        EntityNotFoundException error = Assertions.assertThrows(EntityNotFoundException.class, ()
+                -> service.delete(3L));
+        assertThat(error).isNotNull();
+    }
+
+    @Test
+    void deleteCuisineNotExistent() {
+        CuisineNotFoundException error = Assertions.assertThrows(CuisineNotFoundException.class, ()
+                -> service.delete(50L));
+        assertThat(error).isNotNull();
+    }
 
 }

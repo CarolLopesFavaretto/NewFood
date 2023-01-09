@@ -23,8 +23,8 @@ public class CreateProductService {
         repository.deleteById(id);
     }
 
-    public Product findById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new ProductNotFoundException(
-                String.format("O código %d informado não foi encontrado", id)));
+    public Product findById(Long restaurantId, Long productId) {
+        return repository.findById(restaurantId, productId).orElseThrow(() -> new ProductNotFoundException(
+                String.format("O código %d informado não foi encontrado", productId)));
     }
 }

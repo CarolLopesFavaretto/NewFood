@@ -291,14 +291,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/restaurant/11",
+							"raw": "localhost:8080/restaurant/3",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"restaurant",
-								"11"
+								"3"
 							]
 						}
 					},
@@ -332,7 +332,7 @@
 					"response": []
 				},
 				{
-					"name": "Updated Restaurant",
+					"name": "Updated Restaurant Active/Inactive",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -361,7 +361,65 @@
 					"response": []
 				},
 				{
-					"name": "Delete Restaurant",
+					"name": "Updated Restaurant Open",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/restaurant/3/open",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurant",
+								"3",
+								"open"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updated Restaurant Close",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/restaurant/3/close",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurant",
+								"3",
+								"close"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Restaurant Active/Inactive",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -375,6 +433,25 @@
 								"restaurant",
 								"3",
 								"active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Restaurant",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurant/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurant",
+								"3"
 							]
 						}
 					},
@@ -497,6 +574,175 @@
 								"11",
 								"payment",
 								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updated By Field",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Pizzaria\",\r\n    \"shipping\": 35\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/restaurant/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurant",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Restaurant Product",
+			"item": [
+				{
+					"name": "List Restaurant for Product",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/restaurant/11/product",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurant",
+								"11",
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List for Product",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/restaurant/11/product/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurant",
+								"11",
+								"product",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updated Product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"baiao de dois\",\r\n    \"description\": \"prato tipico nordestino\",\r\n    \"price\": 58.90 ,\r\n    \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/restaurant/11/product/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurant",
+								"11",
+								"product",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Created Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"baiao de dois\",\r\n    \"description\": \"prato tipico nordestino\",\r\n    \"price\": 38.90 ,\r\n    \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/restaurant/11/product",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurant",
+								"11",
+								"product"
 							]
 						}
 					},
@@ -957,7 +1203,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Gerencia\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Administrativo\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1027,6 +1273,82 @@
 			]
 		},
 		{
+			"name": "Group for Permissions",
+			"item": [
+				{
+					"name": "List Permission for Group",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/group/3/permission",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"group",
+								"3",
+								"permission"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Permission",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"CEO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/group/3/permission/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"group",
+								"3",
+								"permission",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Permission",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/group/3/permission/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"group",
+								"3",
+								"permission",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "User",
 			"item": [
 				{
@@ -1083,7 +1405,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Ana231323\",\r\n    \"email\": \"caroline@hotmail.com\",\r\n    \"password\": \"1234\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Andre\",\r\n    \"email\": \"andrea@hotmail.com\",\r\n    \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

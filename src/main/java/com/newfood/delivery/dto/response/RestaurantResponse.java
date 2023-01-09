@@ -16,4 +16,5 @@ public class RestaurantResponse {
     private CuisineResponse cuisine;
     private AddressResponse address;
     private Boolean active;
+    private Boolean open;
 }

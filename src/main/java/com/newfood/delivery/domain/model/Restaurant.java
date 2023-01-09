@@ -44,6 +44,8 @@ public class Restaurant {
 
     private Boolean active = Boolean.TRUE;
 
+    private Boolean open = Boolean.FALSE;
+
     @ManyToMany
     @JoinTable(name = "restaurants_payment", joinColumns = @JoinColumn(name = "restaurant_id"), inverseJoinColumns = @JoinColumn(name = "payment_id"))
     private Set<Payment> payment = new HashSet<>();
@@ -66,6 +68,14 @@ public class Restaurant {
         setActive(false);
     }
 
+    public void open() {
+        setOpen(true);
+    }
+
+    public void close() {
+        setOpen(false);
+    }
+
     public Boolean removePayment(Payment payment) {
         return getPayment().remove(payment);
     }
@@ -73,4 +83,6 @@ public class Restaurant {
     public Boolean addPayment(Payment payment) {
         return getPayment().add(payment);
     }
+
+
 }
