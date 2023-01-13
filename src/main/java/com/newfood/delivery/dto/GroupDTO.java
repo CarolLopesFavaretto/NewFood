@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +25,7 @@ public class GroupDTO {
         return mapper.map(group, GroupResponse.class);
     }
 
-    public List<GroupResponse> toCollectionModel(List<Group> groups) {
+    public List<GroupResponse> toCollectionModel(Collection<Group> groups) {
         return groups.stream()
                 .map(group -> toModel(group))
                 .collect(Collectors.toList());

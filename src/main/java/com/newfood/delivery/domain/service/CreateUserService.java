@@ -2,6 +2,7 @@ package com.newfood.delivery.domain.service;
 
 import com.newfood.delivery.api.exceptions.BusinessException;
 import com.newfood.delivery.api.exceptions.UserNotFoundException;
+import com.newfood.delivery.domain.model.Group;
 import com.newfood.delivery.domain.model.User;
 import com.newfood.delivery.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class CreateUserService {
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private CreateGroupService groupService;
 
     @Transactional
     public User save(User user) {
@@ -46,6 +50,20 @@ public class CreateUserService {
         } catch (EmptyResultDataAccessException e) {
             throw new UserNotFoundException(String.format("Usuario %d não encontrado.", id));
         }
+    }
+
+    @Transactional
+    public void addGroup(Long userId, Long groupId){
+        Group group = groupService.findById(groupId);
+        User user = findById(userId);
+        user.getGroups().add(group);
+    }
+
+    @Transactional
+    public void removeGroup (Long userId, Long groupId){
+        User user = findById(userId);
+        Group group = groupService.findById(groupId);
+        user.getGroups().remove(group);
     }
 
     public User findById(Long id) {

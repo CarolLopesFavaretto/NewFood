@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -32,7 +33,15 @@ public class User {
 
     @ManyToMany
     @JoinTable(name = "users_groups", joinColumns = @JoinColumn(name = "users_id"), inverseJoinColumns = @JoinColumn(name = "groups_id"))
-    private List<Group> groups = new ArrayList<>();
+    private Set<Group> groups = new HashSet<>();
+
+    public Boolean addGroup(Group group) {
+        return getGroups().add(group);
+    }
+
+    public Boolean removeGroup(Group group) {
+        return getGroups().remove(group);
+    }
 
     public boolean samePassword(String password) {
         return getPassword().equals(password);
