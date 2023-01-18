@@ -1,15 +1,14 @@
 package com.newfood.delivery.domain.service;
 
 import com.newfood.delivery.api.exceptions.RestaurantNotFoundException;
-import com.newfood.delivery.domain.model.City;
-import com.newfood.delivery.domain.model.Cuisine;
-import com.newfood.delivery.domain.model.Payment;
-import com.newfood.delivery.domain.model.Restaurant;
+import com.newfood.delivery.domain.model.*;
 import com.newfood.delivery.domain.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class CreateRestaurantService {
@@ -24,6 +23,9 @@ public class CreateRestaurantService {
 
     @Autowired
     private CreatePaymentService paymentService;
+
+    @Autowired
+    private CreateUserService userService;
 
     @Transactional
     public Restaurant save(Restaurant restaurant) {
@@ -65,6 +67,20 @@ public class CreateRestaurantService {
     }
 
     @Transactional
+    public void removeUser(Long restaurantId, Long userId) {
+        Restaurant restaurant = findById(restaurantId);
+        User user = userService.findById(userId);
+        restaurant.getUsers().remove(user);
+    }
+
+    @Transactional
+    public void addUser(Long restaurantId, Long userId) {
+        Restaurant restaurant = findById(restaurantId);
+        User user = userService.findById(userId);
+        restaurant.getUsers().add(user);
+    }
+
+    @Transactional
     public void active(Long id) {
         Restaurant restaurant = findById(id);
         restaurant.active();
@@ -74,6 +90,16 @@ public class CreateRestaurantService {
     public void inactive(Long id) {
         Restaurant restaurant = findById(id);
         restaurant.inactive();
+    }
+
+    @Transactional
+    public void activeList(List<Long>restaurantIds){
+        restaurantIds.forEach(this::active);
+    }
+
+    @Transactional
+    public void inactiveList(List<Long>restaurantIds){
+        restaurantIds.forEach(this::inactive);
     }
 
     @Transactional

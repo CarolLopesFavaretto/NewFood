@@ -26,7 +26,7 @@ public class UserDTO {
         return mapper.map(user, UserResponse.class);
     }
 
-    public List<UserResponse> toCollectionModel(List<User> users) {
+    public List<UserResponse> toCollectionModel(Collection<User> users) {
         return users.stream()
                 .map(user -> toModel(user))
                 .collect(Collectors.toList());

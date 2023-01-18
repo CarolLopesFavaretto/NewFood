@@ -19,7 +19,6 @@ public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private BigDecimal subtotal;
     private BigDecimal feeShipping;
     private BigDecimal amount;
@@ -27,11 +26,11 @@ public class Orders {
     @Embedded
     private Address address;
 
-    private StatusOrders status;
+    @Enumerated(EnumType.STRING)
+    private StatusOrders status = StatusOrders.CREATED;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
-
     private LocalDateTime dateConfirmation;
     private LocalDateTime dateCancellation;
     private LocalDateTime dateDelivery;
@@ -50,5 +49,21 @@ public class Orders {
 
     @OneToMany(mappedBy = "orders")
     private List<Item> items = new ArrayList<>();
+
+    public void calculateTotalValue() {
+        this.subtotal = getItems().stream()
+                .map(item -> item.getTotal())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        this.amount = this.subtotal.add(this.feeShipping);
+    }
+
+    public void setShipping() {
+        setFeeShipping(getRestaurant().getShipping());
+    }
+
+    public void assignOrderToItems() {
+        getItems().forEach(item -> item.setOrders(this));
+    }
 
 }

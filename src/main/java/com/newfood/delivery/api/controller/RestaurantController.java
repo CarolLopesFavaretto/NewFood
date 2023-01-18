@@ -2,6 +2,7 @@ package com.newfood.delivery.api.controller;
 
 import com.newfood.delivery.api.exceptions.BusinessException;
 import com.newfood.delivery.api.exceptions.CuisineNotFoundException;
+import com.newfood.delivery.api.exceptions.RestaurantNotFoundException;
 import com.newfood.delivery.domain.model.Restaurant;
 import com.newfood.delivery.domain.repository.RestaurantRepository;
 import com.newfood.delivery.domain.service.CreateRestaurantService;
@@ -96,6 +97,26 @@ public class RestaurantController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void close(@PathVariable Long id) {
         service.close(id);
+    }
+
+    @PutMapping("/activations")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void activeList(@RequestBody List<Long> restaurantIds) {
+        try {
+            service.activeList(restaurantIds);
+        } catch (RestaurantNotFoundException e) {
+            throw new BusinessException(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/activations")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void inactiveList(@RequestBody List<Long> restaurantIds) {
+        try {
+            service.inactiveList(restaurantIds);
+        } catch (RestaurantNotFoundException e) {
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}/active")

@@ -51,6 +51,10 @@ public class Restaurant {
     private Set<Payment> payment = new HashSet<>();
 
     @ManyToMany
+    @JoinTable(name = "restaurants_user_responsible", joinColumns = @JoinColumn(name = "restaurant_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> users = new HashSet<>();
+
+    @ManyToMany
     @JoinTable(name = "restaurants_products", joinColumns = @JoinColumn(name = "restaurant_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products = new ArrayList<>();
 
@@ -74,6 +78,22 @@ public class Restaurant {
 
     public void close() {
         setOpen(false);
+    }
+
+    public Boolean removeUser(User user) {
+        return getUsers().remove(user);
+    }
+
+    public Boolean addUser(User user) {
+        return getUsers().add(user);
+    }
+
+    public Boolean acceptPaymentMethod(Payment payment) {
+        return getPayment().contains(payment);
+    }
+
+    public Boolean doesNotAcceptPaymentMethod(Payment payment) {
+        return !acceptPaymentMethod(payment);
     }
 
     public Boolean removePayment(Payment payment) {
