@@ -1,5 +1,6 @@
 package com.newfood.delivery.domain.model;
 
+import com.newfood.delivery.api.exceptions.BusinessException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -47,10 +48,20 @@ public class Orders {
     @JoinColumn(name = "users_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "orders")
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
 
     public void calculateTotalValue() {
+        this.subtotal = getItems().stream()
+                .map(item -> item.getTotal())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        this.amount = this.subtotal.add(this.feeShipping);
+    }
+
+    public void calculateTotal() {
+        getItems().forEach(Item::calculatedPriceTotal);
+
         this.subtotal = getItems().stream()
                 .map(item -> item.getTotal())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -64,6 +75,30 @@ public class Orders {
 
     public void assignOrderToItems() {
         getItems().forEach(item -> item.setOrders(this));
+    }
+
+    public void approved() {
+        setStatus(StatusOrders.CONFIRMED);
+        setDateConfirmation(LocalDateTime.now());
+    }
+
+    public void canceled() {
+        setStatus(StatusOrders.CANCELED);
+        setDateCancellation(LocalDateTime.now());
+    }
+
+    public void delivered() {
+        setStatus(StatusOrders.DELIVERED);
+        setDateDelivery(LocalDateTime.now());
+    }
+
+    private void setStatus(StatusOrders newStatus) {
+        if (getStatus().cannotChangeTo(newStatus)) {
+            throw new BusinessException(String.format
+                    ("Status do pedido %d não pode ser alterado de %s para %s", getId(),
+                            getStatus().getDescription(), newStatus.getDescription()));
+        }
+        this.status = newStatus;
     }
 
 }

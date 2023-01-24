@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 public class ItemResponse {
 
     private Long id;
+    private String name;
     private BigDecimal value;
     private BigDecimal total;
     private Integer quantity;

@@ -1,29 +1,29 @@
 package com.newfood.delivery.dto.request;
 
-import com.newfood.delivery.domain.model.Address;
-import com.newfood.delivery.domain.model.StatusOrders;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Getter
 @Setter
 public class OrderRequest {
 
-    private BigDecimal subtotal;
-    private BigDecimal feeShipping;
-    private BigDecimal amount;
-    private Address address;
-    private StatusOrders status;
-    //    private LocalDateTime createdAt;
-//    private LocalDateTime dateConfirmation;
-//    private LocalDateTime dateCancellation;
-//    private LocalDateTime dateDelivery;
-//    private PaymentRequest payment;
-//    private RestaurantRequest restaurant;
-//    private UserRequest user;
+    @Valid
+    @NotNull
+    private RestaurantIdRequest restaurant;
+    @Valid
+    @NotNull
+    private AddressRequest address;
+    @Valid
+    @NotNull
+    private PaymentIdRequest payment;
+    @Valid
+    @Size(min = 1)
+    @NotNull
     private List<ItemRequest> items;
 
 }

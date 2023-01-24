@@ -1762,9 +1762,21 @@
 			"item": [
 				{
 					"name": "List Orders",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"restaurant\":{\r\n        \"id\": 1\r\n    },\r\n    \"payment\":{\r\n        \"id\": 1\r\n    },\r\n    \"address\": {\r\n            \"zipCode\": \"06150010\",\r\n            \"publicPlace\": \"av paulista\",\r\n            \"number\": \"120\",\r\n            \"complement\": \"n/a\",\r\n            \"district\": \"São Paulo\",\r\n            \"city\": {\r\n                \"id\": 1 \r\n                }\r\n            },\r\n\"Item\":[\r\n    {\r\n    \r\n    \"productId\": \"1\",\r\n    \"quantity\": \"1\",\r\n    \"observation\": \"sem cebola\"\r\n}\r\n]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "localhost:8080/orders",
 							"host": [
@@ -1784,14 +1796,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/orders/",
+							"raw": "localhost:8080/orders/2",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"orders",
-								""
+								"2"
 							]
 						}
 					},
@@ -1829,6 +1841,90 @@
 							"port": "8080",
 							"path": [
 								"orders"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Status Orders",
+			"item": [
+				{
+					"name": "Approved",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/orders/1/approved",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"orders",
+								"1",
+								"approved"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Canceled",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/orders/2/canceled",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"orders",
+								"2",
+								"canceled"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delivered",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/xml",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/orders/1/delivered",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"orders",
+								"1",
+								"delivered"
 							]
 						}
 					},

@@ -27,5 +27,5 @@ public class OrdersResponse {
     private PaymentResponse payment;
     private RestaurantResponse restaurant;
     private UserResponse user;
-    private List<ItemRequest> items;
+    private List<ItemResponse> items;
 }
