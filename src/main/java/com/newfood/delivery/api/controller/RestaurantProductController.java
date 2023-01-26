@@ -32,9 +32,14 @@ public class RestaurantProductController {
     private ProductDTO dto;
 
     @GetMapping
-    public List<ProductResponse> findByRestaurant(@PathVariable Long restaurantId) {
+    public List<ProductResponse> findByRestaurant(@PathVariable Long restaurantId, @RequestParam(required = false) boolean findInactive) {
         Restaurant restaurant = restaurantService.findById(restaurantId);
-        List<Product> products = productRepository.findByRestaurant(restaurant);
+        List<Product> products;
+        if (findInactive) {
+            products = productRepository.findByRestaurant(restaurant);
+        } else{
+            products = productRepository.findByActiveRestaurant(restaurant);
+        }
         return dto.toCollectionModel(products);
     }
 

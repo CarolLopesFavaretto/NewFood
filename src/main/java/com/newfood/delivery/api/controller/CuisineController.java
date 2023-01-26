@@ -7,6 +7,9 @@ import com.newfood.delivery.dto.CuisineDTO;
 import com.newfood.delivery.dto.request.CuisineRequest;
 import com.newfood.delivery.dto.response.CuisineResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,9 +31,11 @@ public class CuisineController {
     private CuisineDTO dto;
 
     @GetMapping
-    public List<CuisineResponse> list() {
-        List<Cuisine> cuisines = repository.findAll();
-        return dto.toCollectionModel(cuisines);
+    public Page<CuisineResponse> list(Pageable pageable) {
+        Page<Cuisine> cuisines = repository.findAll(pageable);
+        List<CuisineResponse> list = dto.toCollectionModel(cuisines.getContent());
+        Page<CuisineResponse> page = new PageImpl<>(list, pageable, cuisines.getTotalElements());
+        return page;
     }
 
     @GetMapping("/all-name")
